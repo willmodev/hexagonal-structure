@@ -1,10 +1,10 @@
 # Store API - Arquitectura Hexagonal
 
-## Descripciu00f3n
+## Descripción
 
-Este proyecto implementa una API REST para una tienda online utilizando arquitectura hexagonal (tambiu00e9n conocida como arquitectura de puertos y adaptadores) y siguiendo los principios de Domain-Driven Design (DDD).
+Este proyecto implementa una API REST para una tienda online utilizando arquitectura hexagonal (también conocida como arquitectura de puertos y adaptadores) y siguiendo los principios de Domain-Driven Design (DDD).
 
-La arquitectura hexagonal permite separar claramente las preocupaciones de la aplicaciu00f3n, haciendo que el cu00f3digo sea mu00e1s mantenible, testeable y adaptable a cambios.
+La arquitectura hexagonal permite separar claramente las preocupaciones de la aplicación, haciendo que el código sea más mantenible, testeable y adaptable a cambios.
 
 ## Estructura del Proyecto
 
@@ -12,82 +12,82 @@ El proyecto sigue una estructura de paquetes que refleja la arquitectura hexagon
 
 ```
 com.hexagonal.store
-u251cu2500u2500 application         # Capa de aplicaciu00f3n
-u2502   u251cu2500u2500 port           # Puertos (interfaces)
-u2502   u2502   u251cu2500u2500 input      # Puertos de entrada (casos de uso)
-u2502   u2502   u2514u2500u2500 output     # Puertos de salida (repositorios)
-u2502   u2514u2500u2500 service        # Implementaciones de casos de uso
-u251cu2500u2500 domain              # Capa de dominio
-u2502   u251cu2500u2500 exception      # Excepciones de dominio
-u2502   u251cu2500u2500 model          # Entidades y objetos de valor
-u2502   u2514u2500u2500 service        # Servicios de dominio
-u251cu2500u2500 infrastructure      # Capa de infraestructura
-u2502   u251cu2500u2500 config         # Configuraciones
-u2502   u251cu2500u2500 input          # Adaptadores de entrada
-u2502   u2502   u2514u2500u2500 rest       # Controladores REST
-u2502   u2502       u251cu2500u2500 dto     # DTOs para la API
-u2502   u2502       u2514u2500u2500 mapper  # Mappers para DTOs
-u2502   u2514u2500u2500 output         # Adaptadores de salida
-u2502       u2514u2500u2500 persistence # Persistencia
-u2502           u251cu2500u2500 adapter  # Adaptadores de repositorio
-u2502           u251cu2500u2500 entity   # Entidades JPA
-u2502           u251cu2500u2500 mapper   # Mappers para entidades JPA
-u2502           u2514u2500u2500 repository # Repositorios JPA
-u2514u2500u2500 shared              # Componentes compartidos
-    u251cu2500u2500 exception      # Excepciones comunes
-    u2514u2500u2500 util           # Clases de utilidad
+├── application         # Capa de aplicación
+│   ├── port           # Puertos (interfaces)
+│   │   ├── input      # Puertos de entrada (casos de uso)
+│   │   └── output     # Puertos de salida (repositorios)
+│   └── service        # Implementaciones de casos de uso
+├── domain              # Capa de dominio
+│   ├── exception      # Excepciones de dominio
+│   ├── model          # Entidades y objetos de valor
+│   └── service        # Servicios de dominio
+├── infrastructure      # Capa de infraestructura
+│   ├── config         # Configuraciones
+│   ├── input          # Adaptadores de entrada
+│   │   └── rest       # Controladores REST
+│   │       ├── dto     # DTOs para la API
+│   │       └── mapper  # Mappers para DTOs
+│   └── output         # Adaptadores de salida
+│       └── persistence # Persistencia
+│           ├── adapter  # Adaptadores de repositorio
+│           ├── entity   # Entidades JPA
+│           ├── mapper   # Mappers para entidades JPA
+│           └── repository # Repositorios JPA
+└── shared              # Componentes compartidos
+    ├── exception      # Excepciones comunes
+    └── util           # Clases de utilidad
 ```
 
 ## Capas de la Arquitectura Hexagonal
 
 ### 1. Capa de Dominio
 
-El nu00facleo de la aplicaciu00f3n que contiene la lu00f3gica de negocio. Esta capa es independiente de cualquier framework o tecnologu00eda externa.
+El núcleo de la aplicación que contiene la lógica de negocio. Esta capa es independiente de cualquier framework o tecnología externa.
 
 - **Modelos de Dominio**: Entidades y objetos de valor que representan conceptos del negocio.
-- **Servicios de Dominio**: Lu00f3gica de negocio compleja que opera sobre mu00faltiples entidades.
-- **Excepciones de Dominio**: Excepciones especu00edficas del dominio.
+- **Servicios de Dominio**: Lógica de negocio compleja que opera sobre múltiples entidades.
+- **Excepciones de Dominio**: Excepciones específicas del dominio.
 
-### 2. Capa de Aplicaciu00f3n
+### 2. Capa de Aplicación
 
-Orquesta el flujo de datos entre el exterior y el dominio, aplicando la lu00f3gica de casos de uso.
+Orquesta el flujo de datos entre el exterior y el dominio, aplicando la lógica de casos de uso.
 
-- **Puertos de Entrada**: Interfaces que definen las operaciones que la aplicaciu00f3n expone al exterior (casos de uso).
-- **Puertos de Salida**: Interfaces que definen las operaciones que la aplicaciu00f3n necesita del exterior (repositorios).
-- **Servicios de Aplicaciu00f3n**: Implementan los casos de uso utilizando entidades de dominio y puertos de salida.
+- **Puertos de Entrada**: Interfaces que definen las operaciones que la aplicación expone al exterior (casos de uso).
+- **Puertos de Salida**: Interfaces que definen las operaciones que la aplicación necesita del exterior (repositorios).
+- **Servicios de Aplicación**: Implementan los casos de uso utilizando entidades de dominio y puertos de salida.
 
 ### 3. Capa de Infraestructura
 
-Contiene adaptadores que conectan la aplicaciu00f3n con sistemas externos como bases de datos, APIs, etc.
+Contiene adaptadores que conectan la aplicación con sistemas externos como bases de datos, APIs, etc.
 
 - **Adaptadores de Entrada**: Implementan los puertos de entrada (controladores REST, consumidores de mensajes).
 - **Adaptadores de Salida**: Implementan los puertos de salida (repositorios JPA, clientes HTTP).
-- **Configuraciu00f3n**: Configuraciu00f3n de frameworks y bibliotecas.
+- **Configuración**: Configuración de frameworks y bibliotecas.
 
-## Tecnologu00edas Utilizadas
+## Tecnologías Utilizadas
 
 - **Spring Boot**: Framework para crear aplicaciones Java
 - **Spring Data JPA**: Para la persistencia de datos
 - **Spring Security**: Para la seguridad de la API
-- **Lombok**: Para reducir cu00f3digo boilerplate
+- **Lombok**: Para reducir código boilerplate
 - **MapStruct**: Para mapeo entre objetos
 - **H2/MySQL**: Base de datos
-- **Swagger/OpenAPI**: Documentaciu00f3n de la API
+- **Swagger/OpenAPI**: Documentación de la API
 
-## Caracteru00edsticas Principales
+## Características Principales
 
-- **Productos**: Gestiu00f3n de productos con categoru00edas
+- **Productos**: Gestión de productos con categorías
 - **Descuentos**: Sistema de reglas de descuento configurable
-- **Seguridad**: Autenticaciu00f3n y autorizaciu00f3n
-- **Documentaciu00f3n API**: Interfaz Swagger para explorar y probar endpoints
+- **Seguridad**: Autenticación y autorización
+- **Documentación API**: Interfaz Swagger para explorar y probar endpoints
 
-## Cu00f3mo Ejecutar
+## Cómo Ejecutar
 
 1. Clonar el repositorio
 2. Configurar la base de datos en `application.properties`
 3. Ejecutar con Maven: `mvn spring-boot:run`
 4. Acceder a la API en `http://localhost:8080`
-5. Explorar la documentaciu00f3n en `http://localhost:8080/swagger-ui.html`
+5. Explorar la documentación en `http://localhost:8080/swagger-ui.html`
 
 ## Endpoints Principales
 
@@ -105,13 +105,13 @@ Contiene adaptadores que conectan la aplicaciu00f3n con sistemas externos como b
 - `POST /discounts/rules`: Crear una nueva regla de descuento
 - `GET /discounts/products/{productId}/price`: Calcular precio con descuento
 
-## Principios de Diseu00f1o
+## Principios de Diseño
 
-- **SOLID**: Principios de diseu00f1o orientado a objetos
-- **Clean Code**: Cu00f3digo limpio y legible
-- **DRY**: No repetir cu00f3digo
+- **SOLID**: Principios de diseño orientado a objetos
+- **Clean Code**: Código limpio y legible
+- **DRY**: No repetir código
 - **Inmutabilidad**: Uso de objetos inmutables cuando sea posible
-- **Fail-Fast**: Validaciu00f3n temprana de errores
+- **Fail-Fast**: Validación temprana de errores
 
 ## Licencia
 
