@@ -38,6 +38,74 @@ com.hexagonal.store
     └── util           # Clases de utilidad
 ```
 
+## Estructura de Paquetes
+
+La estructura de paquetes sigue los principios de la arquitectura hexagonal:
+
+### Capa de Dominio
+```
+com.hexagonal.store.domain
+├── model        # Entidades y objetos de valor
+├── service      # Servicios de dominio (lógica de negocio compleja)
+└── exception    # Excepciones específicas del dominio
+```
+
+### Capa de Aplicación
+```
+com.hexagonal.store.application
+├── port
+│   ├── input    # Puertos de entrada (interfaces de casos de uso)
+│   └── output   # Puertos de salida (interfaces de repositorios)
+└── service      # Implementaciones de los casos de uso
+```
+
+### Capa de Infraestructura
+```
+com.hexagonal.store.infrastructure
+├── input
+│   └── rest     # Adaptadores de entrada (controladores REST)
+│       ├── dto      # DTOs para la API
+│       └── mapper   # Mappers para DTOs
+├── output
+│   └── persistence  # Adaptadores de salida (persistencia)
+│       ├── adapter     # Implementaciones de repositorios
+│       ├── entity      # Entidades JPA
+│       ├── mapper      # Mappers para entidades JPA
+│       └── repository  # Repositorios JPA
+└── config       # Configuraciones (seguridad, beans, etc.)
+```
+
+### Capa Compartida
+```
+com.hexagonal.store.shared
+├── exception    # Excepciones comunes
+└── util         # Utilidades compartidas
+```
+
+## Principios de Implementación
+
+### Controladores (Adaptadores de Entrada)
+- Siguen el patrón Facade
+- Se enfocan solo en preocupaciones HTTP (códigos de estado, headers, manejo de peticiones/respuestas)
+- Delegan toda la lógica de negocio a los servicios de aplicación
+- Utilizan inyección de dependencias con `@RequiredArgsConstructor`
+
+### Servicios de Aplicación
+- Implementan interfaces de casos de uso (puertos de entrada)
+- Orquestan el flujo de datos entre el exterior y el dominio
+- Utilizan servicios de dominio para lógica de negocio compleja
+- Utilizan puertos de salida para interactuar con sistemas externos
+
+### Servicios de Dominio
+- Contienen lógica de negocio compleja
+- Operan sobre múltiples entidades de dominio
+- Son independientes de frameworks y tecnologías externas
+
+### Adaptadores de Salida
+- Implementan puertos de salida (interfaces de repositorios)
+- Adaptan la tecnología específica (JPA, REST, etc.) a las necesidades del dominio
+- Convierten entre entidades de dominio y entidades de infraestructura
+
 ## Capas de la Arquitectura Hexagonal
 
 ### 1. Capa de Dominio
