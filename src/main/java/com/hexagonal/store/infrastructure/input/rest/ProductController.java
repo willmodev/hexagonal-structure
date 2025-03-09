@@ -1,7 +1,6 @@
 package com.hexagonal.store.infrastructure.input.rest;
 
-import com.hexagonal.store.application.port.input.CreateProductUseCase;
-import com.hexagonal.store.application.port.input.RetrieveProductUseCase;
+import com.hexagonal.store.application.service.ProductService;
 import com.hexagonal.store.infrastructure.input.rest.dto.CreateProductRequest;
 import com.hexagonal.store.infrastructure.input.rest.dto.ProductResponse;
 import com.hexagonal.store.infrastructure.input.rest.mapper.ProductDtoMapper;
@@ -18,14 +17,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador REST para la gestión de productos.
+ * Siguiendo los principios de la arquitectura hexagonal y SOLID,
+ * este controlador actúa como un adaptador de entrada que utiliza
+ * el servicio de aplicación a través de su interfaz.
+ */
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
 @Tag(name = "Products", description = "API para la gestión de productos")
 public class ProductController {
 
-    private final CreateProductUseCase createProductUseCase;
-    private final RetrieveProductUseCase retrieveProductUseCase;
+    private final ProductService productService;
     private final ProductDtoMapper productDtoMapper;
 
     @Operation(summary = "Crear un nuevo producto", 
@@ -37,7 +41,7 @@ public class ProductController {
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody CreateProductRequest request) {
-        var product = createProductUseCase.createProduct(
+        var product = productService.createProduct(
             request.name(),
             request.description(),
             request.price(),
@@ -57,7 +61,7 @@ public class ProductController {
     })
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
-        var products = retrieveProductUseCase.getAllProducts();
+        var products = productService.getAllProducts();
         var productResponses = productDtoMapper.toResponseList(products);
         return ResponseEntity.ok(productResponses);
     }
