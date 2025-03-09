@@ -1,5 +1,6 @@
 package com.hexagonal.store.infrastructure.input.rest.dto;
 
+import com.hexagonal.store.domain.model.ProductCategory;
 import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
@@ -22,5 +23,7 @@ public record CreateProductRequest(
     @NotNull(message = "El stock es requerido")
     @PositiveOrZero(message = "El stock no puede ser negativo")
     @Max(value = 999999, message = "El stock no puede ser mayor a 999999")
-    Integer stock
+    Integer stock,
+    
+    ProductCategory category
 ) {}

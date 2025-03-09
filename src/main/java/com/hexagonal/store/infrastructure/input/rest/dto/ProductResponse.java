@@ -1,5 +1,6 @@
 package com.hexagonal.store.infrastructure.input.rest.dto;
 
+import com.hexagonal.store.domain.model.ProductCategory;
 import com.hexagonal.store.domain.model.ProductStatus;
 import java.math.BigDecimal;
 
@@ -9,5 +10,6 @@ public record ProductResponse(
     String description,
     BigDecimal price,
     Integer stock,
-    ProductStatus status
+    ProductStatus status,
+    ProductCategory category
 ) {}

@@ -41,7 +41,8 @@ public class ProductController {
             request.name(),
             request.description(),
             request.price(),
-            request.stock()
+            request.stock(),
+            request.category()
         );
         
         var response = productDtoMapper.toResponse(product);
